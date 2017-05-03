@@ -28,19 +28,22 @@ method init(v: ControlsSampleView, r: Rect) =
     procCall v.View.init(r)
 
     let label = newLabel(newRect(10, 10, 100, 20))
+    label.text = "Bash command:"
+    let label2 = newLabel(newRect(200, 10, 100, 20))
+    label2.text = ""
     let textField = newTextField(newRect(120, 10, v.bounds.width - 130, 20))
     textField.autoresizingMask = { afFlexibleWidth, afFlexibleMaxY }
-    label.text = "Bash command:"
     v.addSubview(label)
+    v.addSubview(label2)
     v.addSubview(textField)
 
     let button = newButton(newRect(10, 40, 100, 22))
     button.title = "run"
     button.onAction do():
-        tfLabel.text = "textfield: " & (if tfLabel.text.isNil: "nothing entered." else: "exit code: " & intToStr(execShellCmd(tfLabel.text), 2))
+        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd(textField.text), 2)) ## use nohup .. & ?
     v.addSubview(button)
 
-    v.addSubview(tfLabel)
+    v.addSubview(textField)
 
 registerSample(ControlsSampleView, "Controls")
 proc startApplication() =
