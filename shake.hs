@@ -33,17 +33,20 @@ main = shakeArgs shakeOptions { shakeFiles = ".shake", shakeLint = Just LintBasi
         mapM_ (\str -> command_ [] "nimble" ["install", str]) source
 
     ".nim/main.nim" %> \out -> do
-        liftIO $ createDirectoryIfMissing True ".nim"
         source <- fromMaybe "src" <$> getConfig "SRC_DIR"
+        need [ source <> "/main.nim" ]
+        liftIO $ createDirectoryIfMissing True ".nim"
         cmd (Cwd ".nim") ["cp", "-r", "../" <> source <> "/main.nim", "."]
 
     ".nim/main" %> \out -> do
-        need [".nim/main.nim"]
+        source <- fromMaybe "src" <$> getConfig "SRC_DIR"
+        need [ source <> "/main.nim", ".nim/main.nim" ]
         options <- (read :: String -> [String]) . fromMaybe [] <$> getConfig "NIM_OPT"
         -- the environment variable fixes a bug building nimx with an older version of nim
         cmd (AddEnv "NIMX_RES_PATH" "123") (Cwd ".nim") (["nim", "c"] <> options <> ["main.nim"])
 
     "target/main" %> \out -> do
-        need [".nim/main"]
+        source <- fromMaybe "src" <$> getConfig "SRC_DIR"
+        need [ source <> "/main.nim", ".nim/main.nim", ".nim/main"]
         liftIO $ createDirectoryIfMissing True "target"
         cmd ["ln", "-f", ".nim/main", "target/main"]
