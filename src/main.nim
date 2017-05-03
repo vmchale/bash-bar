@@ -32,7 +32,7 @@ method init(v: ControlsSampleView, r: Rect) =
     procCall v.View.init(r)
 
     #let textField = TextField.new(v.bounds.inset(50, 50))
-    let textField = newTextField(newRect(20, 20, v.bounds.width - 70, 20))
+    let textField = newTextField(newRect(20, 20, v.bounds.width - 50, 30))
     textField.resizingMask = "wh"
     textField.text = primer
     #textField.backgroundColor = newColor(0.5, 0, 0, 0.5)
@@ -40,7 +40,7 @@ method init(v: ControlsSampleView, r: Rect) =
 
     let label2 = newLabel(newRect(10, 70, 80, 20))
     label2.text = "exit code: "
-    textField.formattedText.setFontInRange(0, textField.text.len, systemFontOfSize(30))
+    textField.formattedText.setFontInRange(0, textField.text.len, systemFontOfSize(20))
         #textField.formattedText.setShadowInRange(a, b, newColor(0.0, 0.0, 1.0, 1.0), newSize(2, 2), 1.0, 0.8)
     textField.autoresizingMask = { afFlexibleWidth, afFlexibleMaxY }
     v.addSubview(label2)
@@ -56,7 +56,7 @@ proc startApplication() =
 
     var mainWindow : Window
 
-    mainWindow = newWindow(newRect(40, 40, 500, 50))
+    mainWindow = newWindow(newRect(40, 40, 550, 70))
 
     mainWindow.title = "bash-bar"
 
