@@ -1,21 +1,16 @@
-#!/usr/local/bin/nim c -r --noMain
-
 import nimx.view
 import nimx.app
 import nimx.table_view
 import nimx.text_field
 import nimx.window
-import nimx.window
 import nimx.linear_layout
 import nimx.system_logger # Required because of Nim bug (#4433)
 import os
-
 import sequtils
 import intsets
-
 import nimx.button
-import nimx.text_field
 import nimx.types
+import strutils
 import typetraits
 
 type SampleInfo = tuple[name: string, className: string]
@@ -35,26 +30,17 @@ method init(v: ControlsSampleView, r: Rect) =
     let label = newLabel(newRect(10, 10, 100, 20))
     let textField = newTextField(newRect(120, 10, v.bounds.width - 130, 20))
     textField.autoresizingMask = { afFlexibleWidth, afFlexibleMaxY }
-    label.text = "Text field:"
+    label.text = "Bash command:"
     v.addSubview(label)
     v.addSubview(textField)
 
-    let tfLabel = newLabel(newRect(330, 150, 150, 20))
-    tfLabel.text = "<-- Enter some text"
-    let tf1 = newTextField(newRect(10, 150, 150, 20))
-    tf1.onAction do():
-        tfLabel.text = "textfield: " & (if tf1.text.isNil: "nil" else: tf1.text)
-        discard execShellCmd(tf1.text)
-
     let button = newButton(newRect(10, 40, 100, 22))
-    button.title = "Button"
+    button.title = "run"
     button.onAction do():
-        if textField.text.isNil: textField.text = ""
-        textField.text = "entered: " & (if tf1.text.isNil: "nil" else: tf1.text)
+        tfLabel.text = "textfield: " & (if tfLabel.text.isNil: "nothing entered." else: "exit code: " & intToStr(execShellCmd(tfLabel.text), 2))
     v.addSubview(button)
 
     v.addSubview(tfLabel)
-    v.addSubview(tf1)
 
 registerSample(ControlsSampleView, "Controls")
 proc startApplication() =
