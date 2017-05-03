@@ -29,8 +29,8 @@ method init(v: ControlsSampleView, r: Rect) =
 
     let label = newLabel(newRect(10, 10, 100, 20))
     label.text = "Bash command:"
-    let label2 = newLabel(newRect(200, 10, 100, 20))
-    label2.text = ""
+    let label2 = newLabel(newRect(10, 100, 100, 20))
+    label2.text = "exit code: "
     let textField = newTextField(newRect(120, 10, v.bounds.width - 130, 20))
     textField.autoresizingMask = { afFlexibleWidth, afFlexibleMaxY }
     v.addSubview(label)
