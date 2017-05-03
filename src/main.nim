@@ -27,21 +27,15 @@ type ControlsSampleView = ref object of View
 method init(v: ControlsSampleView, r: Rect) =
     procCall v.View.init(r)
 
-    let label = newLabel(newRect(10, 10, 100, 20))
-    label.text = "Bash command:"
-    let label2 = newLabel(newRect(10, 100, 100, 20))
+    let label2 = newLabel(newRect(10, 70, 100, 20))
     label2.text = "exit code: "
-    let textField = newTextField(newRect(120, 10, v.bounds.width - 130, 20))
+    let textField = newTextField(newRect(20, 10, v.bounds.width - 130, 20))
     textField.autoresizingMask = { afFlexibleWidth, afFlexibleMaxY }
-    v.addSubview(label)
     v.addSubview(label2)
     v.addSubview(textField)
 
-    let button = newButton(newRect(10, 40, 100, 22))
-    button.title = "run"
-    button.onAction do():
-        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd(textField.text), 2)) ## use nohup .. & ?
-    v.addSubview(button)
+    textField.onAction do():
+        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd("bash -c \"" & textField.text & "\" > ~/.bashbar.log"), 1)) ## use nohup .. & ? log??
 
     v.addSubview(textField)
 

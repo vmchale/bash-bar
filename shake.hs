@@ -4,7 +4,6 @@
     --package shake
     --package directory
 -}
-{-# LANGUAGE DataKinds #-}
 
 import Development.Shake
 import Development.Shake.Config
@@ -13,7 +12,8 @@ import Data.Maybe
 import Data.Monoid
 
 main :: IO ()
-main = shakeArgs shakeOptions { shakeFiles = ".shake", shakeLint = Just LintBasic } $ do
+main = shakeArgs shakeOptions { shakeFiles = ".shake", shakeLint = Just LintBasic, shakeProgress = progressSimple } $ do
+
     usingConfigFile "config/build.cfg"
 
     want [ "target/main"
@@ -34,7 +34,7 @@ main = shakeArgs shakeOptions { shakeFiles = ".shake", shakeLint = Just LintBasi
 
     ".nim/main.nim" %> \out -> do
         source <- fromMaybe "src" <$> getConfig "SRC_DIR"
-        need [ source <> "/main.nim" ]
+        need [ source <> "/main.nim"]
         liftIO $ createDirectoryIfMissing True ".nim"
         cmd (Cwd ".nim") ["cp", "-r", "../" <> source <> "/main.nim", "."]
 
