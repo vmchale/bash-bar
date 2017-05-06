@@ -26,7 +26,7 @@ template registerSample*(T: typedesc, sampleName: string) =
 
 type ControlsSampleView = ref object of View
 
-const primer = "enter a bash command"
+const primer = "enter a ion command"
 
 method init(v: ControlsSampleView, r: Rect) =
     procCall v.View.init(r)
@@ -47,8 +47,7 @@ method init(v: ControlsSampleView, r: Rect) =
     v.addSubview(textField)
 
     textField.onAction do():
-        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd("ion -c \"" & textField.text & "\" > ~/.ionbar.log"), 1)) ## use nohup .. & ? log??
-    ## TODO cli options to set the shell?
+        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd("ion -c \"" & textField.text & "\" > ~/.bashbar.log"), 1)) ## use nohup .. & ? log??
 
     v.addSubview(textField)
 
@@ -59,14 +58,14 @@ proc startApplication() =
 
     mainWindow = newWindow(newRect(40, 40, 550, 70))
 
-    mainWindow.title = "bash-bar"
+    mainWindow.title = "ionbar"
 
     var currentView = View.new(newRect(0, 0, mainWindow.bounds.width, mainWindow.bounds.height))
 
     let splitView = newHorizontalLayout(mainWindow.bounds)
     splitView.resizingMask = "wh"
     splitView.userResizeable = true
-    mainWindow.addSubview(currentView)
+    mainWindow.addSubview(splitView)
     let tableView = newTableView(newRect(0, 0, 0, mainWindow.bounds.height))
     tableView.resizingMask = "rh"
     splitView.addSubview(currentView)
