@@ -6,7 +6,7 @@ import nimx.text_field
 import nimx.window
 import nimx.linear_layout
 import nimx.formatted_text
-import nimx.system_logger # Required because of Nim bug (#4433)
+import nimx.system_logger # Required because of Nim bug
 import os
 import sequtils
 import intsets
@@ -47,7 +47,7 @@ method init(v: ControlsSampleView, r: Rect) =
     v.addSubview(textField)
 
     textField.onAction do():
-        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd("ion -c \"" & textField.text & "\" > ~/.bashbar.log"), 1)) ## use nohup .. & ? log??
+        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd("ion -c \"" & textField.text & "\" > ~/.ionbar.log"), 1)) ## use nohup .. & ? log??
 
     v.addSubview(textField)
 
