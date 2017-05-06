@@ -47,7 +47,8 @@ method init(v: ControlsSampleView, r: Rect) =
     v.addSubview(textField)
 
     textField.onAction do():
-        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd("bash -c \"" & textField.text & "\" > ~/.bashbar.log"), 1)) ## use nohup .. & ? log??
+        label2.text = "exit code: " & (if textField.text.isNil: "nothing entered." else: intToStr(execShellCmd("ion -c \"" & textField.text & "\" > ~/.ionbar.log"), 1)) ## use nohup .. & ? log??
+    ## TODO cli options to set the shell?
 
     v.addSubview(textField)
 
@@ -65,7 +66,7 @@ proc startApplication() =
     let splitView = newHorizontalLayout(mainWindow.bounds)
     splitView.resizingMask = "wh"
     splitView.userResizeable = true
-    mainWindow.addSubview(splitView)
+    mainWindow.addSubview(currentView)
     let tableView = newTableView(newRect(0, 0, 0, mainWindow.bounds.height))
     tableView.resizingMask = "rh"
     splitView.addSubview(currentView)

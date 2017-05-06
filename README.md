@@ -1,7 +1,7 @@
-# bash-bar
+# ionbar
 
-This is bash-bar. It is meant to provide an easy way to launch commands using
-the bash shell.
+This is ionbar. It is meant to provide an easy way to launch commands using
+the ion shell. I use it with [XMonad](http://xmonad.org/).
 
 ## Screenshots
 
