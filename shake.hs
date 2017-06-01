@@ -1,5 +1,5 @@
 #!/usr/bin/env stack
-{- stack --resolver lts-8.12 --install-ghc
+{- stack --resolver lts-8.16 --install-ghc
     runghc
     --package shake
     --package directory
@@ -26,6 +26,7 @@ main = shakeArgs shakeOptions { shakeFiles = ".shake", shakeLint = Just LintBasi
 
     "clean" ~> do
         putNormal "cleaning files..." 
+        removeFilesAfter "target" ["//*"]
         removeFilesAfter ".nim" ["//*"]
 
     "run" ~> do
